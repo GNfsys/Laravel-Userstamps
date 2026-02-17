@@ -2,6 +2,8 @@
 
 namespace Mattiverse\Userstamps\Traits;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Mattiverse\Userstamps\UserstampsScope;
 
 trait Userstamps
@@ -37,17 +39,32 @@ trait Userstamps
         return $usingSoftDeletes;
     }
 
-    public function creator(): mixed
+    /**
+     * @template TRelatedModel of Authenticatable
+     *
+     * @return BelongsTo<Authenticatable, $this>
+     */
+    public function creator(): BelongsTo
     {
         return $this->belongsTo($this->getUserClass(), $this->getCreatedByColumn());
     }
 
-    public function editor(): mixed
+    /**
+     * @template TRelatedModel of Authenticatable
+     *
+     * @return BelongsTo<TRelatedModel, $this>
+     */
+    public function editor(): BelongsTo
     {
         return $this->belongsTo($this->getUserClass(), $this->getUpdatedByColumn());
     }
 
-    public function destroyer(): mixed
+    /**
+     * @template TRelatedModel of Authenticatable
+     *
+     * @return BelongsTo<TRelatedModel, $this>
+     */
+    public function destroyer(): BelongsTo
     {
         return $this->belongsTo($this->getUserClass(), $this->getDeletedByColumn());
     }
