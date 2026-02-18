@@ -2,6 +2,7 @@
 
 namespace Mattiverse\Userstamps\Traits;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Mattiverse\Userstamps\UserstampsScope;
 
 trait Userstamps
@@ -37,17 +38,17 @@ trait Userstamps
         return $usingSoftDeletes;
     }
 
-    public function creator(): mixed
+    public function creator(): BelongsTo
     {
         return $this->belongsTo($this->getUserClass(), $this->getCreatedByColumn());
     }
 
-    public function editor(): mixed
+    public function editor(): BelongsTo
     {
         return $this->belongsTo($this->getUserClass(), $this->getUpdatedByColumn());
     }
 
-    public function destroyer(): mixed
+    public function destroyer(): BelongsTo
     {
         return $this->belongsTo($this->getUserClass(), $this->getDeletedByColumn());
     }
